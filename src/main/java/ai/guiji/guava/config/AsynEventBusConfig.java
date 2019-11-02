@@ -11,10 +11,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class AsynEventBusConfig {
 
-    @Value(value = "${task.pool.core-pool-size:4}")
+    @Value(value = "${task.pool.core-pool-size:2}")
     private Integer corePoolSize;
 
-    @Value(value = "${task.pool.max-pool-size:12}")
+    @Value(value = "${task.pool.max-pool-size:8}")
     private Integer maxPoolSize;
 
     @Value(value = "${task.pool.keep-alive-seconds:60}")

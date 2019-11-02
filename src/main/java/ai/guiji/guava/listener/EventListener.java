@@ -1,7 +1,9 @@
 package ai.guiji.guava.listener;
 
-import ai.guiji.guava.model.Test;
-import ai.guiji.guava.service.Test2Service;
+import ai.guiji.guava.model.Borrow;
+import ai.guiji.guava.model.User;
+import ai.guiji.guava.service.BorrowService;
+import ai.guiji.guava.service.UserService;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -28,12 +30,22 @@ public class EventListener {
     }
 
     @Subscribe
-    public void testListener(Test test) {
+    public void userListener(User user) {
         try {
-            Test2Service test2Service = (Test2Service) applicationContext.getBean("test2Service");
-            test2Service.process(test);
+            UserService userService = (UserService) applicationContext.getBean("userService");
+            userService.process(user);
         } catch (Exception e) {
             logger.error("test fail", e);
+        }
+    }
+
+    @Subscribe
+    public void borrowListener(Borrow borrow) {
+        try {
+            BorrowService borrowService = (BorrowService) applicationContext.getBean("borrowService");
+            borrowService.process(borrow);
+        } catch (Exception e) {
+            logger.error("borrow fail", e);
         }
     }
 }

@@ -1,14 +1,12 @@
 package ai.guiji.guava.controller;
 
-import ai.guiji.guava.model.Test;
+import ai.guiji.guava.model.Borrow;
+import ai.guiji.guava.model.User;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -21,17 +19,17 @@ public class EventController {
     private AsyncEventBus asyncEventBus;
 
 
-    @GetMapping(path = "/test1/{name}")
-    public void testEventBus(@PathVariable("name") String name) {
-        asyncEventBus.post(name);
+    @PostMapping(path = "/user")
+    public void testEventBus(@RequestBody User user) {
+        asyncEventBus.post(user);
     }
 
-    @GetMapping(path = "/test2")
+    @GetMapping(path = "/borrow")
     public void testEventBus2() {
-        List<String> names = Splitter.on(',')
+        List<String> amounts = Splitter.on(',')
                 .trimResults()
                 .omitEmptyStrings()
-                .splitToList(CharMatcher.anyOf("[]\"").removeFrom("[zll,charlie,liliang]"));
-        names.parallelStream().forEach(n -> IntStream.rangeClosed(1, 1000).forEach(i -> asyncEventBus.post(new Test(i, n + "_" + i))));
+                .splitToList(CharMatcher.anyOf("[]\"").removeFrom("[500,1000,1500]"));
+        amounts.parallelStream().forEach(n -> IntStream.rangeClosed(1, 1000).forEach(i -> asyncEventBus.post(new Borrow(Double.valueOf(n)))));
     }
 }
