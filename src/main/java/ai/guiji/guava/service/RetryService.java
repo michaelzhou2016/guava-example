@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 
-@Service("RetryService")
+@Service("retryService")
 public class RetryService {
     private final static Logger logger = LoggerFactory.getLogger(RetryService.class);
 
